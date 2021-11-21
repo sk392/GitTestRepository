@@ -95,6 +95,8 @@ class MainActivity : AppCompatActivity() {
         binding.btSearch.apply {
             setOnClickListener {
                 search(binding.etSearch.text.toString(), true)
+                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
             }
         }
     }
