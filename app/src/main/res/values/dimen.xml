@@ -5,6 +5,7 @@
     <dimen name="search_result_margin_top">8dp</dimen>
 
     <dimen name="item_repository_height">48dp</dimen>
+    <dimen name="item_repository_default_padding">4dp</dimen>
     <dimen name="item_repository_title_margin">8dp</dimen>
 
 </resources>

@@ -8,7 +8,10 @@ data class RepositoryUIModel(
     val repositoryName: String,
     val userId: Int,
     val userName: String,
-    val userUrl: String
+    val userUrl: String,
+    val updateAt: String,
+    val starCount: Int,
+    val forkCount: Int
 ) {
     val tabRepository = Tap.Repository(repositoryUrl)
 
@@ -23,5 +26,8 @@ fun Repository.toUIModel() = RepositoryUIModel(
     repositoryName = name,
     userId = owner.id,
     userName = owner.login,
-    userUrl = owner.url
+    userUrl = owner.url,
+    updateAt = updatedAt ?: "",
+    starCount = stargazersCount ?: 0,
+    forkCount = forksCount ?: 0
 )

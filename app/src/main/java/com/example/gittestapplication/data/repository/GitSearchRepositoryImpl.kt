@@ -28,7 +28,7 @@ class GitSearchRepositoryImpl(
                         if (!resultList.isNullOrEmpty()) {
                             resultList
                         } else {
-                            throw Exception("custom Exception")
+                            throw Exception("empty Search Result")
                         }
                     }
 
