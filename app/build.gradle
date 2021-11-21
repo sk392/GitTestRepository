@@ -44,10 +44,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION"
 
-//    koin
+//  koin
     implementation "io.insert-koin:koin-core:$KOIN_VERSION"
     implementation "io.insert-koin:koin-android:$KOIN_VERSION"
     implementation "io.insert-koin:koin-androidx-viewmodel:$KOIN_VERSION"
+
+//  retrofit2
+    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
