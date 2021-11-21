@@ -18,7 +18,7 @@ abstract class BaseViewHolder<T, B : ViewDataBinding> private constructor(
         DataBindingUtil.inflate<B>(LayoutInflater.from(parent.context), layoutResId, parent, false)
     )
 
-    open fun onBind(item: T) {}
+    open fun onBind(item: T, presenter: DataBindingPresenter) {}
     open fun onViewRecycled() {}
 
 }

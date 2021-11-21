@@ -3,16 +3,17 @@ package com.example.gittestapplication.ui.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.gittestapplication.ui.base.DataBindingPresenter
 import com.example.gittestapplication.ui.model.RepositoryUIModel
 
-class MainAdapter : ListAdapter<RepositoryUIModel, MainRepositoryItemViewHolder>(DiffCallback()) {
+class MainAdapter(private val presenter: DataBindingPresenter) : ListAdapter<RepositoryUIModel, MainRepositoryItemViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainRepositoryItemViewHolder {
         return MainRepositoryItemViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: MainRepositoryItemViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position), presenter)
     }
 
     override fun onViewRecycled(holder: MainRepositoryItemViewHolder) {
