@@ -66,6 +66,30 @@ class MainViewModel(
         }
     }
 
+    fun fetchMore(visiblePosition: Int) {
+        if (_isLoading.value == true || _fetchRepositories.value.isNullOrEmpty()) return
+
+        if (fetchRepositories.value?.size ?: 0 < visiblePosition + FETCH_MORE_VISIBLE_THRESHOLD) {
+            _isLoading.value = true
+            currentPageNumber++
+
+            viewModelScope.launch {
+                val result = searchUseCase(currentQuery, currentSort, currentOrder, currentPageSize, currentPageNumber)
+                _isLoading.value = false
+
+                when (result) {
+                    is Result.Success -> {
+                        val addedList = result.value.map { it.toUIModel() }
+                        _fetchRepositories.value = (_fetchRepositories.value?.toMutableList() ?: emptyList()) + addedList
+                    }
+                    is Result.Failure -> {
+                        _showErrorMessage.value = result.throwable.message
+                    }
+                }
+            }
+        }
+    }
+
     fun updateFilter(order: Order = currentOrder, sort: Sort = currentSort, pageSize: Int = currentPageSize) {
         currentOrder = order
         currentSort = sort

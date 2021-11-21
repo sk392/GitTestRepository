@@ -1,13 +1,16 @@
 package com.example.gittestapplication.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gittestapplication.R
 import com.example.gittestapplication.databinding.ActivityMainBinding
 import com.example.gittestapplication.domain.model.Order
@@ -90,6 +93,15 @@ class MainActivity : AppCompatActivity() {
             itemAnimator = null
             layoutManager = LinearLayoutManager(context)
             adapter = mainAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    (layoutManager as? LinearLayoutManager)?.run {
+                        mainViewModel.fetchMore(findLastCompletelyVisibleItemPosition())
+                    }
+                }
+            })
         }
 
         binding.btSearch.apply {
