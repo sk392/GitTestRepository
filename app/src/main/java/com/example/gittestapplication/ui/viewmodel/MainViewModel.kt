@@ -1,6 +1,5 @@
 package com.example.gittestapplication.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +16,9 @@ class MainViewModel : ViewModel() {
 
     fun fetch(query: String) {
         viewModelScope.launch {
-            _fetchRepositories.postValue(fetchRepositoriesUseCase((query)))
+            val result = fetchRepositoriesUseCase((query))
+
+            _fetchRepositories.value = result
         }
     }
 
@@ -41,7 +42,7 @@ class MainViewModel : ViewModel() {
                 userName = owner.login,
                 userUrl = owner.url
             ) {
-                Log.e("lattelog", "MainViewModel - toUIModel: tetett")
+                //do something
             }
         }
     }
