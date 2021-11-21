@@ -10,6 +10,6 @@ class GitSearchRemoteDataSource(
     private val apiService: ApiServer.GitService
 ) {
     suspend fun fetchRepositories(query: String, sort: Sort, order: Order, pageSize: Int, pageNumber: Int): Result<SearchRepositoryResponse?> {
-        return Result.create { apiService.searchRepositoriesResult(query, sort.name, order.name, pageSize, pageNumber) }
+        return Result.create { apiService.searchRepositoriesResult(query, sort.queryName, order.queryName, pageSize, pageNumber) }
     }
 }
