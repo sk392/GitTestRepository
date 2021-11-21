@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gittestapplication.domain.model.Repository
 import com.example.gittestapplication.ui.model.RepositoryUIModel
+import com.example.gittestapplication.ui.model.toUIModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -26,23 +27,7 @@ class MainViewModel : ViewModel() {
         delay(1000)
         return mutableListOf<RepositoryUIModel>().apply {
             for (i in 0..100) {
-                add(createRepositoryUIModel(Repository(i)))
-            }
-        }
-    }
-
-    private fun createRepositoryUIModel(model: Repository): RepositoryUIModel {
-        return with(model) {
-            RepositoryUIModel(
-                repositoryId = id,
-                repositoryUrl = url,
-                repositoryName = name,
-                repositoryFullName = fullName,
-                userId = owner.id,
-                userName = owner.login,
-                userUrl = owner.url
-            ) {
-                //do something
+                add(Repository(i).toUIModel())
             }
         }
     }
