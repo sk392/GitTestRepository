@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GitTestApplication</string>
     <string name="text_search">검색</string>
+    <string name="repository_extra_info">forks : %1$d, stars : %2$d</string>
 </resources>

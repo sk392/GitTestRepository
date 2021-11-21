@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.example.gittestapplication.ui.model.RepositoryUIModel" />
@@ -17,17 +18,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_repository_height"
+        android:padding="@dimen/item_repository_default_padding"
         android:onClick="@{(view) -> presenter.onClick(view, vm.tabRepository)}">
 
         <TextView
-            android:id="@+id/id"
+            android:id="@+id/repository_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(vm.userId)}"
+            android:text="@{String.valueOf(vm.repositoryName)}"
             app:layout_constraintBottom_toTopOf="@id/name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="id 입니다" />
+            tools:text="repositoryName 입니다" />
 
         <TextView
             android:id="@+id/name"
@@ -36,8 +38,8 @@
             android:text="@{vm.userName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/id"
-            tools:text="Name 입니다" />
+            app:layout_constraintTop_toBottomOf="@id/repository_name"
+            tools:text="UserName 입니다" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/title_barrier"
@@ -45,27 +47,38 @@
             android:layout_height="wrap_content"
             app:barrierDirection="end"
             app:barrierMargin="@dimen/item_repository_title_margin"
-            app:constraint_referenced_ids="id,name" />
-
-        <TextView
-            android:id="@+id/repository_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{vm.repositoryName}"
-            app:layout_constraintBottom_toTopOf="@id/repository_url"
-            app:layout_constraintStart_toStartOf="@id/title_barrier"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="repository name 입니다" />
+            app:constraint_referenced_ids="repository_name,name" />
 
         <TextView
             android:id="@+id/repository_url"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{vm.repositoryUrl}"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/title_barrier"
-            app:layout_constraintTop_toBottomOf="@id/repository_name"
+            app:layout_constraintEnd_toEndOf="@id/extra_info"
             tools:text="https://urlurlurl.com/urlurl" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.updateAt}"
+            android:background="@color/teal_200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2021-11-21T03:35:09Z"/>
+
+        <TextView
+            android:id="@+id/extra_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:extra_info="@{vm}"
+            app:layout_constraintStart_toEndOf="@id/repository_url"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
