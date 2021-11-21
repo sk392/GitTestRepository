@@ -16,12 +16,12 @@ import com.example.gittestapplication.ui.adapter.MainAdapter
 import com.example.gittestapplication.ui.base.SimpleDataBindingPresenter
 import com.example.gittestapplication.ui.model.RepositoryUIModel
 import com.example.gittestapplication.ui.viewmodel.MainViewModel
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by inject()
+    private val mainViewModel: MainViewModel by viewModel()
     private lateinit var mainAdapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
             adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, items)
 
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    viewModel.updateFilter(order = Order.values()[position])
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    mainViewModel.updateFilter(order = Order.values()[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
             adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, items)
 
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    viewModel.updateFilter(pageSize = Integer.valueOf(items[position]))
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    mainViewModel.updateFilter(pageSize = Integer.valueOf(items[position]))
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -78,8 +78,8 @@ class MainActivity : AppCompatActivity() {
             setSelection(Sort.DEFAULT.ordinal)
 
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    viewModel.updateFilter(sort = Sort.values()[position])
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    mainViewModel.updateFilter(sort = Sort.values()[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -100,17 +100,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun search(query: String, force: Boolean = false) {
-        viewModel.fetch(query, force)
+        mainViewModel.fetch(query, force)
     }
 
     private fun initObservers() {
-        viewModel.fetchRepositories.observe(this, {
+        mainViewModel.fetchRepositories.observe(this, {
             mainAdapter.submitList(it)
         })
-        viewModel.showErrorMessage.observe(this, {
+        mainViewModel.showErrorMessage.observe(this, {
             Toast.makeText(this, "error = $it", Toast.LENGTH_SHORT).show()
         })
-        viewModel.isLoading.observe(this, {
+        mainViewModel.isLoading.observe(this, {
             if (it) {
                 showProgressBar()
             } else {
@@ -121,7 +121,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun showProgressBar() {
         binding.progress.visibility = View.VISIBLE
-
     }
 
     private fun hideProgressBar() {
