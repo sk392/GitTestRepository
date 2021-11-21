@@ -1,13 +1,17 @@
 package com.example.gittestapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gittestapplication.R
 import com.example.gittestapplication.databinding.ActivityMainBinding
+import com.example.gittestapplication.domain.model.Order
+import com.example.gittestapplication.domain.model.Sort
 import com.example.gittestapplication.ui.adapter.MainAdapter
 import com.example.gittestapplication.ui.base.SimpleDataBindingPresenter
 import com.example.gittestapplication.ui.model.RepositoryUIModel
@@ -41,6 +45,47 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        binding.spOrder.apply {
+            val items = Order.values()
+            adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, items)
+
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    viewModel.updateFilter(order = Order.values()[position])
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        }
+
+        binding.spPageSize.apply {
+            val items = resources.getStringArray(R.array.page_size_array)
+            adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, items)
+
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    viewModel.updateFilter(pageSize = Integer.valueOf(items[position]))
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        }
+
+        binding.spSort.apply {
+            val items = Sort.values()
+            adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_spinner_dropdown_item, items)
+            setSelection(Sort.DEFAULT.ordinal)
+
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    viewModel.updateFilter(sort = Sort.values()[position])
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        }
+
         binding.rvResult.apply {
             itemAnimator = null
             layoutManager = LinearLayoutManager(context)
@@ -49,13 +94,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.btSearch.apply {
             setOnClickListener {
-                search(binding.etSearch.text.toString())
+                search(binding.etSearch.text.toString(), true)
             }
         }
     }
 
-    private fun search(query: String) {
-        viewModel.fetch(query)
+    private fun search(query: String, force: Boolean = false) {
+        viewModel.fetch(query, force)
     }
 
     private fun initObservers() {
@@ -65,5 +110,21 @@ class MainActivity : AppCompatActivity() {
         viewModel.showErrorMessage.observe(this, {
             Toast.makeText(this, "error = $it", Toast.LENGTH_SHORT).show()
         })
+        viewModel.isLoading.observe(this, {
+            if (it) {
+                showProgressBar()
+            } else {
+                hideProgressBar()
+            }
+        })
+    }
+
+    private fun showProgressBar() {
+        binding.progress.visibility = View.VISIBLE
+
+    }
+
+    private fun hideProgressBar() {
+        binding.progress.visibility = View.GONE
     }
 }

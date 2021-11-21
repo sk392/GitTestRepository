@@ -33,6 +33,40 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="bt_search,et_search" />
 
+        <Spinner
+            android:id="@+id/sp_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toStartOf="@id/sp_sort"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/br_search_bar" />
+
+        <Spinner
+            android:id="@+id/sp_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toStartOf="@id/sp_page_size"
+            app:layout_constraintStart_toEndOf="@id/sp_order"
+            app:layout_constraintTop_toBottomOf="@id/br_search_bar" />
+
+        <Spinner
+            android:id="@+id/sp_page_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sp_sort"
+            app:layout_constraintTop_toBottomOf="@id/br_search_bar" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/br_filter_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="sp_order, sp_sort,sp_page_size" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_result"
             android:layout_width="0dp"
@@ -41,7 +75,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/br_search_bar" />
+            app:layout_constraintTop_toBottomOf="@id/br_filter_bar" />
+
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/br_filter_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
