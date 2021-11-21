@@ -62,5 +62,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.fetchRepositories.observe(this, {
             mainAdapter.submitList(it)
         })
+        viewModel.showErrorMessage.observe(this, {
+            Toast.makeText(this, "error = $it", Toast.LENGTH_SHORT).show()
+        })
     }
 }
